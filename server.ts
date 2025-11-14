@@ -3,7 +3,7 @@ import cors from 'cors';
 import WorkoutTrackerEndpoints from './workout-tracker-endpoints';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = Number(process.env.PORT) || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -17,6 +17,6 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   res.status(500).json({ error: 'Internal Server Error' });
 });
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`API server listening on port ${port}`);
 });
