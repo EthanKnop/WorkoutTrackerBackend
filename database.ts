@@ -7,6 +7,27 @@ export class Database {
     constructor() {
         const connectionString = process.env.DATABASE_URL || 'postgres://postgres:wWsFhtbpSUCrT8vf3jhBkDyYCWE8m6kTF0hAZcZkpw265822i6XNHMoZ7vgfHJX1@b0s4c8ggc4wk8c08g0wwwswg:5432/postgres';
         this.pool = new Pool({ connectionString });
+        this.createTablesIfNotExist();
+    }
+
+    createTablesIfNotExist(): void {
+        const createMachinesTableQuery = `
+            CREATE TABLE IF NOT EXISTS machines (
+                id SERIAL PRIMARY KEY,
+                name TEXT NOT NULL,
+                type TEXT NOT NULL
+            );
+        `;
+        const createWeightTableQuery = `
+            CREATE TABLE IF NOT EXISTS weight (
+                "machineId" INTEGER REFERENCES machines(id),
+                weight REAL NOT NULL,
+                date DATE NOT NULL,
+                PRIMARY KEY ("machineId", date)
+            );
+        `;
+        this.pool.query(createMachinesTableQuery);
+        this.pool.query(createWeightTableQuery);
     }
 
     async getMachinesAndData(machineId?: number): Promise<Array<Machine>> {

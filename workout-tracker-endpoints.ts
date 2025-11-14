@@ -39,9 +39,6 @@ class WorkoutTrackerEndpoints {
         res.status(200).send(machine);
       });
     }
-
-
-
 }
 
 export default WorkoutTrackerEndpoints;
