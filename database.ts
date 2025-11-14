@@ -61,7 +61,7 @@ export class Database {
             }
         });
         Object.values(machinesMap).forEach(machine => {
-            machine.data.sort((a, b) => a.date.localeCompare(b.date));
+            machine.data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
         });
         return Object.values(machinesMap);
     }
